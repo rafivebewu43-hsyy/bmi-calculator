@@ -128,20 +128,57 @@
     <div class="result" id="r"></div>
   </div>
 
-  <script>
-    function calc(){
-      const h = document.getElementById('h').value / 100;
-      const w = document.getElementById('w').value;
-      if(!h || !w){ alert('请输入身高和体重'); return; }
-      const bmi = (w / (h*h)).toFixed(1);
-      let level = '';
-      if(bmi < 18.5) level = '偏瘦';
-      else if(bmi < 24) level = '正常';
-      else if(bmi < 28) level = '超重';
-      else level = '肥胖';
-      document.getElementById('r').innerText =
-        `您的 BMI 为 ${bmi}（${level}）`;
-    }
-  </script>
+<script>
+function calculateBMI() {
+  const height = parseFloat(document.getElementById("height").value);
+  const weight = parseFloat(document.getElementById("weight").value);
+  const result = document.getElementById("result");
+
+  if (!height || !weight) {
+    result.innerHTML = "<span style='color:red'>请输入有效的身高和体重</span>";
+    return;
+  }
+
+  const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+
+  let level = "";
+  let color = "#333";
+
+  if (bmi < 18.5) {
+    level = "偏瘦";
+    color = "#56ccf2";
+  } else if (bmi < 24) {
+    level = "体重正常";
+    color = "#27ae60";
+  } else if (bmi < 28) {
+    level = "超重";
+    color = "#f2c94c";
+  } else if (bmi < 32) {
+    level = "轻度肥胖";
+    color = "#f2994a";
+  } else if (bmi < 37) {
+    level = "中度肥胖";
+    color = "#eb5757";
+  } else {
+    level = "重度肥胖";
+    color = "#b00020";
+  }
+
+  result.innerHTML = `
+    <div style="font-size:20px;margin-bottom:8px;">
+      BMI：<span style="color:${color}">${bmi}</span>
+      （<span style="color:${color}">${level}</span>）
+    </div>
+    <div style="font-size:15px;color:#555;line-height:1.6;">
+      建议前往正规医院肥胖专病门诊进行专业评估，  
+      由多学科团队制定个体化体重管理方案。
+    </div>
+    <div style="margin-top:8px;font-size:13px;color:#888;">
+      本结果仅用于健康筛查参考，不替代医生诊断。
+    </div>
+  `;
+}
+</script>
+
 </body>
 </html>
