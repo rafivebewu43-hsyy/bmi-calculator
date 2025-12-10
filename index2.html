@@ -113,13 +113,15 @@
       if (bmi < 24) {
         level = "体重正常";
       } else if (bmi < 28) {
+        level = "超重";
+      } else if (bmi < 32.5) {
         level = "轻度肥胖";
-      } else if (bmi < 32) {
+      }else if {bmi< 37.5 ）{
         level = "中度肥胖";
-      } else {
-        level = "重度肥胖";
-      }
-
+      }else if {bmi< 50 ）{
+           level = "重度肥胖";
+        }else  
+                 level = "极重度肥胖";
       result.innerHTML = `
         BMI：${bmi}<br>
         分级：${level}
