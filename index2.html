@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-  <title>BMI 自助计算｜华山医院宝山院区</title>
+  <meta charset="UTF-8" />
+  <title>BMI 自助计算 | 华山医院宝山院区</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial;
@@ -12,7 +13,9 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
+
     .card {
       background: #fff;
       padding: 24px;
@@ -20,164 +23,111 @@
       width: 320px;
       box-shadow: 0 6px 20px rgba(0,0,0,.1);
     }
+
     h1 {
       font-size: 20px;
-      margin-bottom: 16px;
       text-align: center;
+      margin-bottom: 16px;
     }
+
     label {
       display: block;
+      font-size: 14px;
       margin-top: 12px;
     }
+
     input {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin-top: 6px;
       font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
+
     button {
       width: 100%;
-      margin-top: 16px;
-      padding: 10px;
+      margin-top: 24px;
+      padding: 12px;
       font-size: 16px;
-      background: #2563eb;
-      color: #fff;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
+      background: #2f80ed;
+      color: #fff;
+      cursor: pointer;
     }
-    .result {
-      margin-top: 14px;
-      font-weight: bold;
+
+    button:hover {
+      background: #1c6fd5;
+    }
+
+    #result {
+      margin-top: 20px;
       text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1.6;
+    }
+
+    .hint {
+      font-size: 14px;
+      color: #d9534f;
+      margin-top: 8px;
     }
   </style>
-<style>
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                 Roboto, "Helvetica Neue", Arial, "PingFang SC",
-                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    background: #f5f7fa;
-    margin: 0;
-    padding: 0;
-  }
+</head>
 
-  .container {
-    max-width: 420px;
-    margin: 40px auto;
-    background: #ffffff;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-  }
-
-  h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 24px;
-  }
-
-  label {
-    display: block;
-    margin-top: 16px;
-    font-weight: 600;
-    color: #555;
-  }
-
-  input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-  }
-
-  button {
-    width: 100%;
-    margin-top: 24px;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    background: #2f80ed;
-    color: white;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #1c6fd5;
-  }
-
-  #result {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-  }
-</style>/head>
 <body>
+  <div class="card">
     <h1>BMI 自助计算</h1>
-    <label>身高（cm）
+
+    <label>
+      身高（cm）
       <input id="h" type="number" placeholder="例如 170">
     </label>
-    <label>体重（kg）
+
+    <label>
+      体重（kg）
       <input id="w" type="number" placeholder="例如 70">
     </label>
+
     <button onclick="calc()">计算 BMI</button>
-    <div class="result" id="r"></div>
+
+    <div id="result"></div>
   </div>
 
-<script>
-function calculateBMI() {
-  const height = parseFloat(document.getElementById("height").value);
-  const weight = parseFloat(document.getElementById("weight").value);
-  const result = document.getElementById("result");
+  <script>
+    function calc() {
+      const h = document.getElementById("h").value;
+      const w = document.getElementById("w").value;
+      const result = document.getElementById("result");
 
-  if (!height || !weight) {
-    result.innerHTML = "<span style='color:red'>请输入有效的身高和体重</span>";
-    return;
-  }
+      if (!h || !w) {
+        result.innerHTML = "请输入身高和体重";
+        return;
+      }
 
-  const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+      const bmi = (w / Math.pow(h / 100, 2)).toFixed(1);
+      let level = "";
 
-  let level = "";
-  let color = "#333";
+      if (bmi < 24) {
+        level = "体重正常";
+      } else if (bmi < 28) {
+        level = "轻度肥胖";
+      } else if (bmi < 32) {
+        level = "中度肥胖";
+      } else {
+        level = "重度肥胖";
+      }
 
-  if (bmi < 18.5) {
-    level = "偏瘦";
-    color = "#56ccf2";
-  } else if (bmi < 24) {
-    level = "体重正常";
-    color = "#27ae60";
-  } else if (bmi < 28) {
-    level = "超重";
-    color = "#f2c94c";
-  } else if (bmi < 32) {
-    level = "轻度肥胖";
-    color = "#f2994a";
-  } else if (bmi < 37) {
-    level = "中度肥胖";
-    color = "#eb5757";
-  } else {
-    level = "重度肥胖";
-    color = "#b00020";
-  }
-
-  result.innerHTML = `
-    <div style="font-size:20px;margin-bottom:8px;">
-      BMI：<span style="color:${color}">${bmi}</span>
-      （<span style="color:${color}">${level}</span>）
-    </div>
-    <div style="font-size:15px;color:#555;line-height:1.6;">
-      建议前往正规医院肥胖专病门诊进行专业评估，  
-      由多学科团队制定个体化体重管理方案。
-    </div>
-    <div style="margin-top:8px;font-size:13px;color:#888;">
-      本结果仅用于健康筛查参考，不替代医生诊断。
-    </div>
-  `;
-}
-</script>
-
+      result.innerHTML = `
+        BMI：${bmi}<br>
+        分级：${level}
+        <div class="hint">
+          建议至肥胖专病门诊就诊，进行科学评估与规范管理
+        </div>
+      `;
+    }
+  </script>
 </body>
 </html>
