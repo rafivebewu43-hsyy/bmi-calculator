@@ -1,74 +1,63 @@
-{\rtf1\ansi\ansicpg936\cocoartf2761
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI 计算器</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial;
+      background: #f4f6f8;
+      padding: 30px;
+    }
+    .box {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    }
+    h2 { text-align: center; }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 12px;
+      font-size: 16px;
+    }
+    button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+    }
+    .result {
+      margin-top: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>BMI 计算器</h2>
+    <input id="h" type="number" placeholder="身高（厘米）">
+    <input id="w" type="number" placeholder="体重（公斤）">
+    <button onclick="calc()">计算 BMI</button>
+    <div class="result" id="r"></div>
+  </div>
 
-\f0\fs24 \cf0 <!doctype html>\
-<html lang="zh-CN">\
-<head>\
-<meta charset="utf-8">\
-<meta name="viewport" content="width=device-width, initial-scale=1">\
-<title>BMI \uc0\u35745 \u31639 \u22120 </title>\
-<style>\
-body\{font-family:Arial,"PingFang SC";background:#f5f9ff;padding:20px\}\
-.box\{max-width:420px;margin:auto;background:#fff;padding:20px;border-radius:10px\}\
-h2\{color:#0b66c2\}\
-input,button\{width:100%;padding:10px;margin-top:10px;font-size:16px\}\
-button\{background:#0b66c2;color:#fff;border:none;border-radius:6px\}\
-#mask\{display:none;position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.4)\}\
-#popup\{background:#fff;margin:120px auto;padding:20px;width:80%;max-width:320px;border-radius:10px\}\
-</style>\
-</head>\
-\
-<body>\
-<div class="box">\
-<h2>BMI \uc0\u33258 \u21161 \u35745 \u31639 </h2>\
-<p>\uc0\u35831 \u36755 \u20837 \u36523 \u39640 \u21644 \u20307 \u37325 \u65288 \u20165 \u20316 \u20581 \u24247 \u35780 \u20272 \u21442 \u32771 \u65289 </p>\
-\
-<input id="h" type="number" placeholder="\uc0\u36523 \u39640 \u65288 cm\u65289 ">\
-<input id="w" type="number" placeholder="\uc0\u20307 \u37325 \u65288 kg\u65289 ">\
-\
-<button onclick="calc()">\uc0\u35745 \u31639  BMI</button>\
-</div>\
-\
-<div id="mask">\
-  <div id="popup">\
-    <h3 id="result"></h3>\
-    <p id="type"></p>\
-    <button onclick="closePop()">\uc0\u20851 \u38381 </button>\
-  </div>\
-</div>\
-\
-<script>\
-function calc()\{\
-  var h=document.getElementById("h").value;\
-  var w=document.getElementById("w").value;\
-  if(!h||!w)\{alert("\uc0\u35831 \u22635 \u20889 \u23436 \u25972 ");return;\}\
-  var bmi=(w/((h/100)*(h/100))).toFixed(1);\
-  var t="";\
-\
-  if(bmi<18.5) t="\uc0\u20559 \u30246 ";\
-  else if(bmi<24) t="\uc0\u27491 \u24120 ";\
-  else if(bmi<28) t="\uc0\u36229 \u37325 ";\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0   else if(28<bmi<32.5) t=\'93\uc0\u36731 \u24230 \u32933 \u32982 \'94;\
-  else if(32.5<bmi<37.5) t=\'93\uc0\u20013 \u24230 \u32933 \u32982 \'94;\
-  else if(37.5<bmi<50) t=\'93\uc0\u37325 \u24230 \u32933 \u32982 \'94;\
-  else if(50<bmi0) t=\'93\uc0\u26497 \u37325 \u24230 \u32933 \u32982 \'94;\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 \
-\
-  document.getElementById("result").innerHTML="BMI\uc0\u65306 "+bmi;\
-  document.getElementById("type").innerHTML="\uc0\u20307 \u37325 \u20998 \u22411 \u65306 "+t;\
-  document.getElementById("mask").style.display="block";\
-\}\
-\
-function closePop()\{\
-  document.getElementById("mask").style.display="none";\
-\}\
-</script>\
-</body>\
-</html>\
-}
+  <script>
+    function calc() {
+      const h = document.getElementById('h').value / 100;
+      const w = document.getElementById('w').value;
+      if (!h || !w) {
+        document.getElementById('r').innerText = '请输入身高和体重';
+        return;
+      }
+      const bmi = (w / (h * h)).toFixed(1);
+      document.getElementById('r').innerText = '你的 BMI 是：' + bmi;
+    }
+  </script>
+</body>
+</html>
