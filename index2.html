@@ -1,124 +1,159 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <title>BMI 自助计算 | 华山医院宝山院区</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>BMI 自助计算 | 肥胖专病门诊</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
-    :root {
-      --primary: #2f80ed;
-      --ok: #27ae60;
-      --warn: #f2c94c;
-      --alert: #eb5757;
-      --bg: #f5f7fa;
+    body {
+      margin: 0;
+      background: #f5f7fa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    html,body {height:100%;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);}
-    .wrap {min-height:100%;display:flex;align-items:center;justify-content:center;padding:32px;}
-    .card {width:100%;max-width:420px;background:#fff;border-radius:12px;padding:24px;box-shadow:0 8px 28px rgba(0,0,0,0.08);}
-    h1 {margin:0 0 8px;font-size:20px;text-align:center;color:#222;}
-    p.lead {margin:0 0 18px;text-align:center;color:#666;font-size:14px;}
-    label {display:block;margin-top:12px;color:#333;font-weight:600;font-size:14px;}
-    input[type="number"] {width:100%;padding:10px;margin-top:8px;font-size:16px;border-radius:8px;border:1px solid #dcdfe6;box-sizing:border-box;}
-    .row {display:flex;gap:12px;flex-wrap:wrap;}
-    button {width:100%;margin-top:20px;padding:12px;border-radius:10px;border:none;background:var(--primary);color:#fff;font-size:16px;cursor:pointer;}
-    button:active{transform:translateY(1px)}
-    #result {margin-top:18px;font-size:15px;line-height:1.6;text-align:center;}
-    .bmi-value {font-size:22px;font-weight:700;}
-    .bmi-level {display:inline-block;padding:6px 10px;border-radius:999px;color:#fff;font-weight:700;margin-left:8px;}
-    .level-under {background:#56ccf2;}
-    .level-normal {background:var(--ok);}
-    .level-over {background:var(--warn);color:#222}
-    .level-mild {background:#f2994a;}
-    .level-moderate {background:var(--alert);}
-    .level-severe {background:#8b0000;}
-    .advice {margin-top:10px;color:#444;font-size:14px;}
-    .small {margin-top:8px;font-size:12px;color:#888;}
-    @media (max-width:420px){
-      .card{padding:18px}
-      h1{font-size:18px}
-      .bmi-value{font-size:20px}
+
+    .card {
+      background: #fff;
+      width: 100%;
+      max-width: 380px;
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      display: block;
+      margin-top: 12px;
+    }
+
+    input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #dcdfe6;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 12px;
+      font-size: 16px;
+      color: #fff;
+      background: #2f80ed;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1c6fd5;
+    }
+
+    #result {
+      margin-top: 20px;
+      text-align: center;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .level {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: bold;
+      margin-left: 6px;
+    }
+
+    .over { background: #f2c94c; color: #333; }
+    .mild { background: #f2994a; }
+    .moderate { background: #eb5757; }
+    .severe { background: #8b0000; }
+
+    .note {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #666;
     }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="card" role="main" aria-labelledby="title">
-      <h1 id="title">BMI 自助计算</h1>
-      <p class="lead">输入身高与体重，快速评估 BMI 与体重分级。结果仅作健康筛查参考，不替代医生诊断。</p>
+  <div class="card">
+    <h1>BMI 自助计算</h1>
 
-      <label for="h">身高（cm）</label>
-      <input id="h" type="number" inputmode="decimal" min="50" max="300" placeholder="例如：170">
+    <label>身高（cm）</label>
+    <input id="height" type="number" placeholder="例如：170">
 
-      <label for="w">体重（kg）</label>
-      <input id="w" type="number" inputmode="decimal" min="10" max="500" placeholder="例如：70">
+    <label>体重（kg）</label>
+    <input id="weight" type="number" placeholder="例如：70">
 
-      <button onclick="calculateBMI()">计算 BMI</button>
+    <button id="calcBtn">计算 BMI</button>
 
-      <div id="result" aria-live="polite"></div>
-      <div class="small">如需进一步评估或个体化管理，请前往复旦大学附属华山医院（宝山院区）肥胖症专病门诊。</div>
-    </div>
+    <div id="result"></div>
   </div>
 
   <script>
-    function calculateBMI(){
-      const hEl = document.getElementById('h');
-      const wEl = document.getElementById('w');
-      const rEl = document.getElementById('result');
+    document.getElementById("calcBtn").addEventListener("click", function () {
+      const h = parseFloat(document.getElementById("height").value);
+      const w = parseFloat(document.getElementById("weight").value);
+      const result = document.getElementById("result");
 
-      const h = parseFloat(hEl.value);
-      const w = parseFloat(wEl.value);
-
-      if (!h || !w || isNaN(h) || isNaN(w) || h <= 0 || w <= 0){
-        rEl.innerHTML = '<div style="color:#d9534f">请输入有效的身高和体重（单位：cm / kg）。</div>';
+      if (!h || !w || h <= 0 || w <= 0) {
+        result.innerHTML = "<span style='color:red'>请输入正确的身高和体重</span>";
         return;
       }
 
-      const bmi = +(w / Math.pow(h/100, 2)).toFixed(1);
-      let level = '';
-      let cls = '';
-      let note = '';
+      const bmi = (w / Math.pow(h / 100, 2)).toFixed(1);
 
-      // 分类按你提供的阈值（并保留常用的偏瘦/正常/超重分级）
-      if (bmi < 18.5){
-        level = '偏瘦';
-        cls = 'level-under';
-        note = '建议关注营养与体重管理。';
-      } else if (bmi < 24){
-        level = '体重正常';
-        cls = 'level-normal';
-        note = '继续保持健康生活方式。';
-      } else if (bmi < 28){
-        level = '超重';
-        cls = 'level-over';
-        note = '建议评估体重管理需求与生活方式调整。';
-      } else if (bmi < 32.5){
-        level = '轻度肥胖';
-        cls = 'level-mild';
-        note = '建议到肥胖专病门诊进行规范评估与个体化管理。';
-      } else if (bmi < 37.5){
-        level = '中度肥胖';
-        cls = 'level-moderate';
-        note = '建议尽早到肥胖专病门诊进行医学评估与干预。';
-      } else if (bmi < 50){
-        level = '重度肥胖';
-        cls = 'level-severe';
-        note = '建议尽快到肥胖专病门诊进行全面评估与多学科干预。';
+      let level = "";
+      let cls = "";
+
+      // ✅ 中国大陆分级（按你给的）
+      if (bmi < 28) {
+        level = "超重";
+        cls = "over";
+      } else if (bmi < 32.5) {
+        level = "轻度肥胖";
+        cls = "mild";
+      } else if (bmi < 37.5) {
+        level = "中度肥胖";
+        cls = "moderate";
+      } else if (bmi < 50) {
+        level = "重度肥胖";
+        cls = "severe";
       } else {
-        level = '极重度肥胖';
-        cls = 'level-severe';
-        note = '体重非常异常，建议立即就医并接受专业评估与紧急干预。';
+        level = "极重度肥胖";
+        cls = "severe";
       }
 
-      // 显示结果（颜色 + 提示）
-      rEl.innerHTML = `
-        <div class="bmi-value">BMI：<span>${bmi}</span>
-          <span class="bmi-level ${cls}">${level}</span>
+      result.innerHTML = `
+        <div><strong>BMI：${bmi}</strong>
+          <span class="level ${cls}">${level}</span>
         </div>
-        <div class="advice">${note}</div>
-        <div class="small">提示：本工具仅作初步健康筛查参考，不能替代医生的面诊、检查与诊断。若有疑问，请到医院门诊就诊。</div>
+        <div class="note">
+          建议：所有人群均建议至<strong>肥胖症专病门诊</strong>进行专业评估与规范管理。
+        </div>
       `;
-    }
+    });
   </script>
 </body>
 </html>
+
 
